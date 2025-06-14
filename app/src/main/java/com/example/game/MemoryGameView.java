@@ -1,8 +1,9 @@
 package com.example.game;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -28,9 +29,20 @@ public class MemoryGameView extends View {
 
     private GameEndListener gameEndListener;
 
+    private Bitmap[] numberBitmaps;
+
     public MemoryGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        loadNumberBitmaps();
         initGame();
+    }
+
+    private void loadNumberBitmaps() {
+        numberBitmaps = new Bitmap[10];
+        for (int i = 0; i < 10; i++) {
+            int resId = getResources().getIdentifier("num_" + i, "drawable", getContext().getPackageName());
+            numberBitmaps[i] = BitmapFactory.decodeResource(getResources(), resId);
+        }
     }
 
     public interface GameEndListener {
@@ -52,7 +64,7 @@ public class MemoryGameView extends View {
     private void initGame() {
         cards = new Card[NUM_ROWS][NUM_COLUMNS];
         List<Integer> symbols = new ArrayList<>();
-        for (int i = 1; i <= (NUM_COLUMNS * NUM_ROWS) / 2; i++) {
+        for (int i = 0; i < (NUM_COLUMNS * NUM_ROWS) / 2; i++) {
             symbols.add(i);
             symbols.add(i);
         }
@@ -71,8 +83,6 @@ public class MemoryGameView extends View {
         super.onDraw(canvas);
 
         cardSize = getWidth() / NUM_COLUMNS;
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(cardSize / 2);
 
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLUMNS; col++) {
@@ -80,21 +90,20 @@ public class MemoryGameView extends View {
                 float top = row * cardSize;
                 Card card = cards[row][col];
 
-                // Vẽ khung
-                paint.setColor(Color.BLACK);
+                // Vẽ khung đen
+                paint.setColor(0xFF000000);
                 canvas.drawRect(left, top, left + cardSize, top + cardSize, paint);
 
                 // Vẽ nội dung
                 if (card.isMatched || card.isFaceUp) {
-                    paint.setColor(Color.WHITE);
-                    canvas.drawRect(left + 5, top + 5, left + cardSize - 5, top + cardSize - 5, paint);
-                    paint.setColor(Color.BLUE);
-                    canvas.drawText(String.valueOf(card.symbol),
-                            left + cardSize / 2f,
-                            top + cardSize / 1.5f,
-                            paint);
+                    canvas.drawBitmap(
+                            Bitmap.createScaledBitmap(numberBitmaps[card.symbol], cardSize - 10, cardSize - 10, false),
+                            left + 5,
+                            top + 5,
+                            null
+                    );
                 } else {
-                    paint.setColor(Color.GRAY);
+                    paint.setColor(0xFF888888);
                     canvas.drawRect(left + 5, top + 5, left + cardSize - 5, top + cardSize - 5, paint);
                 }
             }
