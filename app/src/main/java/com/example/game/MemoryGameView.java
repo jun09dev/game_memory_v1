@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -56,10 +57,29 @@ public class MemoryGameView extends View {
     public void restartGame() {
         selectedCard1 = null;
         selectedCard2 = null;
-        isBusy = false;
+        isBusy = true;
         initGame();
+
+        // Lật tất cả các ô lên
+        for (int row = 0; row < NUM_ROWS; row++) {
+            for (int col = 0; col < NUM_COLUMNS; col++) {
+                cards[row][col].isFaceUp = true;
+            }
+        }
         invalidate();
+
+        // Sau 3 giây, úp lại toàn bộ và cho phép chơi
+        handler.postDelayed(() -> {
+            for (int row = 0; row < NUM_ROWS; row++) {
+                for (int col = 0; col < NUM_COLUMNS; col++) {
+                    cards[row][col].isFaceUp = false;
+                }
+            }
+            isBusy = false;
+            invalidate();
+        }, 3000); // 3 giây = 3000ms
     }
+
 
     private void initGame() {
         cards = new Card[NUM_ROWS][NUM_COLUMNS];
