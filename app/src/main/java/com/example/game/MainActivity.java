@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);  // Luôn gọi trước khi dùng findViewById
+        setContentView(R.layout.activity_main);
 
         // Gán các view từ layout sau setContentView
         memoryGameView = findViewById(R.id.memoryGameView);
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Gán sự kiện khi trò chơi kết thúc
         memoryGameView.setGameEndListener(() -> {
-            statusText.setText("Trò chơi kết thúc!");
+            statusText.setText("게임이 끝났습니다");
             restartButton.setVisibility(View.VISIBLE);
         });
 

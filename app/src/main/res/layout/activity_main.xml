@@ -15,7 +15,7 @@
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hãy bắt đầu!"
+        android:text="시작합시다!"
         android:textSize="18sp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp" />
@@ -24,13 +24,13 @@
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chơi lại"
+        android:text="다시 시작하기"
         android:layout_gravity="center_horizontal"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/startButton"
-        android:text="Hãy bắt đầu!"
+        android:text="시작합시다!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
